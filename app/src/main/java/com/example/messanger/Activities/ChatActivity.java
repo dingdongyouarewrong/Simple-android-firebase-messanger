@@ -2,8 +2,8 @@ package com.example.messanger.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
@@ -54,6 +54,7 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.chat_activity);
         userMessage = findViewById(R.id.userMessage);
         TextView dialogNameText =  findViewById(R.id.dialogName);
+        TextView dialogIdText = findViewById(R.id.dialog_id_text);
 
         dialogName = getIntent().getExtras().getString("dialogName","defaultKey");
         if (mFirebaseUser == null) {
@@ -62,6 +63,7 @@ public class ChatActivity extends AppCompatActivity {
         username = mFirebaseUser.getDisplayName();
         dialogID = getIntent().getExtras().getString("dialogID","defaultKey");
 
+        dialogIdText.setText(dialogID);
         dialogNameText.setText(dialogName);
         displayChat();
 
@@ -69,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
 
     private void displayChat() {
         try {
-            listMessages = (ListView) findViewById(R.id.messagesList);
+            listMessages = findViewById(R.id.messagesList);
             adapter = new FirebaseListAdapter<Message>(this, Message.class, R.layout.message_activity, FirebaseDatabase.getInstance().getReference("dialogs/".concat(dialogID))) {
                 @Override
                 protected void populateView(View v, Message model, int position) {

@@ -30,10 +30,19 @@
                 android:textColor="@android:color/white"
                 android:textSize="30sp" />
 
+            <TextView
+                android:id="@+id/dialog_id_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
+                android:paddingEnd="5dp"
+                android:text="id:3a325681"
+                android:textSize="15dp" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="70"
+                android:layout_weight="30"
                 android:background="@color/colorAccent"
                 android:onClick="SignOut"
                 android:text="выход" />
