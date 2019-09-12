@@ -66,11 +66,7 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialogs_activity);
 
-
-
-
         dialogsViewModel = ViewModelProviders.of(this).get(DialogsViewModel.class);
-
 
         RecyclerView recyclerView = findViewById(R.id.dialogs_list);
         final DialogsListAdapter adapter = new DialogsListAdapter(this);
@@ -78,25 +74,13 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter.setOnClick(this);
 
-
         dialogsViewModel.getAllDialogs().observe(this, new Observer<List<DialogModel>>() {
             @Override
             public void onChanged(List<DialogModel> dialogModels) {
                 dialogsList = dialogModels;
-                Log.e("onChanged", "works");
                 adapter.setData(dialogModels);
             }
         });
-
-
-
-
-        inputDialogID = findViewById(R.id.dialogID);
-        inputDialogName = findViewById(R.id.dialogName);
-
-
-
-        Log.e("RECYCLER", "lsit adapter");
 
         if (mFirebaseUser == null) { //if user object is null, user is not signed in or not signed up
             SignIn();
@@ -136,21 +120,28 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     }
 
     private boolean checkIDForUsage(final String dialogID) { //имя чата шифруется. если имя  зашифровано - оно в виде NnjJBFjkebfkjfbef а значит уникально
-        final boolean[] used = {false};
+        final boolean[] used = {true};
+        Log.e("dialog id is ", dialogID);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("dialogs"); //getting reference on dialogs(there is all users and messages)
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.hasChild(dialogID)) {
                     used[0] = true;
+                    Log.e("exist in", " exist");
+                    Log.e("exist in boolean", valueOf(used[0]));
+
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                used[0] = false;
+                used[0] = true;
+                Log.e("not exist", "  not exist");
             }
         });
+        Log.e("exist out", valueOf(used[0]));
+
         return used[0];
     }
 
@@ -191,7 +182,8 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
         else { //if there was button "connect to dialog" getting layout for dialog and edittext's from there
             alertTitle = "Введите ID диалога и его имя";
             view = inflater.inflate(R.layout.connect_to_dialog_dialog, null);
-
+            inputDialogID = view.findViewById(R.id.dialogIDInput);
+            inputDialogName = view.findViewById(R.id.dialogNameInput);
         }
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(DialogsActivity.this); //time to build alertDialog.
@@ -204,7 +196,6 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
         alertDialog.setPositiveButton("Добавить",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-
                         String dialogName = inputDialogName.getText().toString(); //get dialog  name from edittext
 
                         if ((dialogName.length() == 0)) { //if user didnt entered dialog's name - notice him
@@ -233,10 +224,7 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
         intent.putExtra("dialogID", dialogID);
 
         startActivity(intent);
-
-
         insertDialogIntoDatabase(dialogID, dialogName);
-
     }
 
     private void insertDialogIntoDatabase(String dialogID, String dialogName) {
@@ -266,7 +254,6 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
         Toast.makeText(getApplicationContext(), valueOf(dialogExists), Toast.LENGTH_SHORT).show();
         if (!dialogID.equals("") && dialogExists) { //if id is entered
             Intent intent = new Intent(DialogsActivity.this, ChatActivity.class);
-
             intent.putExtra("dialogName", dialogName);
             intent.putExtra("dialogID", dialogID);
             startActivity(intent);
@@ -282,7 +269,6 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
 
     @Override
     public void onItemClick(View view, int position) {
-        Log.e("onItemClick", "works");
         Intent intent = new Intent(DialogsActivity.this, ChatActivity.class);
         intent.putExtra("dialogName", dialogsList.get(position).dialog_name);
         intent.putExtra("dialogID", dialogsList.get(position).dialog_id);

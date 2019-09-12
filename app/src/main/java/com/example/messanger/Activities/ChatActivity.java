@@ -40,7 +40,6 @@ public class ChatActivity extends AppCompatActivity {
 
     ListView listMessages;
 
-    private GoogleApiClient mGoogleApiClient;
     String username;
     String dialogID;
     EditText userMessage;

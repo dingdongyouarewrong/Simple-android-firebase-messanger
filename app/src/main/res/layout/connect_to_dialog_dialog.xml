@@ -14,7 +14,7 @@
 
 
         <EditText
-            android:id="@+id/dialogName"
+            android:id="@+id/dialogNameInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
@@ -22,7 +22,7 @@
 
 
         <EditText
-            android:id="@+id/dialogID"
+            android:id="@+id/dialogIDInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="введите ID диалога"/>

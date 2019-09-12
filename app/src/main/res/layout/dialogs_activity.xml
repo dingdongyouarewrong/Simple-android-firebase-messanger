@@ -19,31 +19,28 @@
             android:orientation="horizontal"
             android:padding="5dp">
 
-            <TextView
-                android:id="@+id/nameText"
-                android:layout_width="295dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:gravity="start"
-                android:padding="10dp"
-                android:text="Диалоги"
-                android:textColor="@android:color/black"
-                android:textSize="30sp" />
-
-            <ImageButton
+            <Button
+                android:layout_margin="10dp"
+                android:layout_weight="50"
                 android:id="@+id/newDialogButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@android:drawable/ic_menu_set_as"
+                android:textColor="@android:color/white"
+                android:text="Подключить диалог"
+                android:background="@color/colorPrimary"
                 android:onClick="connectToDialog" />
 
-            <ImageButton
+            <Button
+                android:layout_margin="10dp"
+                android:layout_weight="50"
                 android:id="@+id/connectToDialogButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:background="@android:drawable/ic_input_add"
+                android:text="Новый диалог"
+                android:textColor="@android:color/white"
+                android:background="@color/colorPrimaryDark"
                 android:onClick="createNewDialog" />
 
         </LinearLayout>

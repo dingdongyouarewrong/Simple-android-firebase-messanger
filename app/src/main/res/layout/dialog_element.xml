@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp">
 
 
     <LinearLayout
@@ -13,6 +17,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/coloredCircle"
@@ -23,7 +28,10 @@
             android:id="@+id/dialogNameElement"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+
             android:paddingBottom="0dp"
             android:text="Диалог с Васей"
             android:textColor="@android:color/black"

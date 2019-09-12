@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/secondline"
         android:layout_alignParentTop="true"
-        android:background="@color/colorPrimary"
+        android:background="@android:color/white"
         android:orientation="vertical">
 
         <LinearLayout
@@ -27,25 +27,35 @@
                 android:gravity="start"
                 android:padding="10dp"
                 android:text="Чат чачачат"
-                android:textColor="@android:color/white"
+                android:textColor="@android:color/black"
                 android:textSize="30sp" />
 
-            <TextView
-                android:id="@+id/dialog_id_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:paddingEnd="5dp"
-                android:text="id:3a325681"
-                android:textSize="15dp" />
 
-            <Button
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="30"
-                android:background="@color/colorAccent"
-                android:onClick="SignOut"
-                android:text="выход" />
+                android:layout_weight="20"
+                android:orientation="vertical"
+                >
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:onClick="SignOut"
+                    android:text="выход" />
+
+                <TextView
+                    android:id="@+id/dialog_id_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="id:3a325681"
+                    android:textSize="15dp"
+                    android:paddingTop="5dp"
+                    android:layout_gravity="center"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
 
@@ -55,6 +65,7 @@
             android:layout_height="match_parent"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"
+            android:divider="@android:color/white"
             tools:listitem="@layout/message_activity">
 
         </ListView>
