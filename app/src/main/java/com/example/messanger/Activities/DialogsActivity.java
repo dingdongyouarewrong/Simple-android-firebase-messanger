@@ -23,11 +23,9 @@ import com.example.messanger.Constants;
 import com.example.messanger.DialogsListAdapter;
 import com.example.messanger.DialogsViewModel;
 import com.example.messanger.R;
-import com.example.messanger.RoomClasses.DatabaseClass;
-import com.example.messanger.RoomClasses.DatabaseInstance;
 import com.example.messanger.RoomClasses.DialogModel;
-import com.example.messanger.RoomClasses.RoomDao;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.auth.IdpResponse;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -50,6 +50,7 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     DialogModel dialogModel;
     List<DialogModel> dialogsList;
     private DialogsViewModel dialogsViewModel;
+    private static final int RC_SIGN_IN = 123;
 
     //getting constants object
     Constants constants = new Constants();
@@ -146,10 +147,21 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     }
 
     protected void SignIn() {
-        startActivityForResult(AuthUI.getInstance() //starting signin activity from google
-                .createSignInIntentBuilder()
-                .build(), constants.RequestCode_SignedIn
-        );
+
+
+        // Choose authentication providers
+        List<AuthUI.IdpConfig> providers = Arrays.asList(
+                new AuthUI.IdpConfig.EmailBuilder().build(),
+                new AuthUI.IdpConfig.PhoneBuilder().build(),
+                new AuthUI.IdpConfig.GoogleBuilder().build());
+
+// Create and launch sign-in intent
+        startActivityForResult(
+                AuthUI.getInstance()
+                        .createSignInIntentBuilder()
+                        .setAvailableProviders(providers)
+                        .build(),
+                RC_SIGN_IN);
 
     }
 
@@ -160,8 +172,12 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == constants.RequestCode_SignedIn) {
+            IdpResponse response = IdpResponse.fromResultIntent(data);
+
             if (resultCode == RESULT_OK) {
-                Toast.makeText(this,"вход выполнен", Toast.LENGTH_SHORT).show(); // if result code is the same as our result code - creating toast "logged in"
+                Toast.makeText(this,"вход выполнен", Toast.LENGTH_SHORT).show();
+                mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+                // if result code is the same as our result code - creating toast "logged in"
             } else {
                 Toast.makeText(this,"вход не выполнен", Toast.LENGTH_SHORT).show(); //if not - toast that's we're not in
                 finish();

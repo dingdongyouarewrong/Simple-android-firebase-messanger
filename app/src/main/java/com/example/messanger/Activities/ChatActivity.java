@@ -1,18 +1,15 @@
 package com.example.messanger.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,14 +19,14 @@ import com.example.messanger.R;
 import com.firebase.ui.auth.AuthUI;
 import com.firebase.ui.database.FirebaseListAdapter;
 
-import com.google.android.gms.common.api.GoogleApiClient;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
-import static java.lang.String.valueOf;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -70,8 +67,18 @@ public class ChatActivity extends AppCompatActivity {
 
     private void displayChat() {
         try {
+
+
+            //Suppose you want to retrieve "chats" in your Firebase DB:
+
+            Query query = FirebaseDatabase.getInstance().getReference("dialogs/".concat(dialogID));
+            FirebaseListOptions<Message> options = new FirebaseListOptions.Builder<Message>()
+                    .setQuery(FirebaseDatabase.getInstance().getReference("dialogs/".concat(dialogID)), Message.class)
+                    .setLayout(R.layout.message_activity)
+                    .build();
+
             listMessages = findViewById(R.id.messagesList);
-            adapter = new FirebaseListAdapter<Message>(this, Message.class, R.layout.message_activity, FirebaseDatabase.getInstance().getReference("dialogs/".concat(dialogID))) {
+            adapter = new FirebaseListAdapter<Message>(options) {
                 @Override
                 protected void populateView(View v, Message model, int position) {
 
@@ -93,7 +100,7 @@ public class ChatActivity extends AppCompatActivity {
                     }
                 }
             };
-
+            adapter.startListening();
             listMessages.setAdapter(adapter);
         } catch (Exception e) {
             Toast.makeText(getApplicationContext(),
