@@ -25,7 +25,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 
 
 public class ChatActivity extends AppCompatActivity {
@@ -71,7 +70,6 @@ public class ChatActivity extends AppCompatActivity {
 
             //Suppose you want to retrieve "chats" in your Firebase DB:
 
-            Query query = FirebaseDatabase.getInstance().getReference("dialogs/".concat(dialogID));
             FirebaseListOptions<Message> options = new FirebaseListOptions.Builder<Message>()
                     .setQuery(FirebaseDatabase.getInstance().getReference("dialogs/".concat(dialogID)), Message.class)
                     .setLayout(R.layout.message_activity)

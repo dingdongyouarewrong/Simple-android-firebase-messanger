@@ -121,7 +121,7 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     }
 
     private boolean checkIDForUsage(final String dialogID) { //имя чата шифруется. если имя  зашифровано - оно в виде NnjJBFjkebfkjfbef а значит уникально
-        final boolean[] used = {true};
+        final boolean[] used = {false};
         Log.e("dialog id is ", dialogID);
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("dialogs"); //getting reference on dialogs(there is all users and messages)
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -147,15 +147,13 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     }
 
     protected void SignIn() {
-
-
         // Choose authentication providers
         List<AuthUI.IdpConfig> providers = Arrays.asList(
                 new AuthUI.IdpConfig.EmailBuilder().build(),
                 new AuthUI.IdpConfig.PhoneBuilder().build(),
                 new AuthUI.IdpConfig.GoogleBuilder().build());
 
-// Create and launch sign-in intent
+        // Create and launch sign-in intent
         startActivityForResult(
                 AuthUI.getInstance()
                         .createSignInIntentBuilder()
@@ -172,8 +170,6 @@ public class DialogsActivity extends AppCompatActivity implements DialogsListAda
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == constants.RequestCode_SignedIn) {
-            IdpResponse response = IdpResponse.fromResultIntent(data);
-
             if (resultCode == RESULT_OK) {
                 Toast.makeText(this,"вход выполнен", Toast.LENGTH_SHORT).show();
                 mFirebaseUser = FirebaseAuth.getInstance().getCurrentUser();
